@@ -4,6 +4,7 @@ var infowindow;
 var currentInfoWindow = null;
 var marker;
 
+//FourSquare Client info
 var CLIENT_ID = "PGRNG1GBR34H5Y025X0EWBXDPKDA2KIXVL2L1VEU4OIJDFUR";
 var CLIENT_SECRET = "X4AIVIWMJLFIEMBMSAXC42WSN0PNXV5QCOCL3EMQOWOI3LO3";
 
@@ -30,7 +31,7 @@ function initMap() {
       this.id = data.id;
     }
 
-    // Function to activate marker behavior when clicking on marker
+    // marker behavior
     Location.prototype.openWindow = function() {
       map.panTo(this.marker.position);
       google.maps.event.trigger(this.marker, 'click');
@@ -39,8 +40,7 @@ function initMap() {
       }
     };
 
-    // Function to call the FourSquares API. From https://discussions.udacity.com/t/inconsistent-results-from-foursquare/39625/7
-
+    // Calling FourSquare api
     function getFourSquare(location) {
       $.ajax({
         url: 'https://api.foursquare.com/v2/venues/' + location.id + '?client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&v=20140806',
@@ -66,14 +66,12 @@ function initMap() {
     }
 
     // Empty array for all places that will be added with the forEach loop through the var locations
-
     self.allLocations = [];
     locations.forEach(function(location) {
       self.allLocations.push(new Location(location));
     });
 
-    // Adding museum location markers
-
+    // marker location
     self.allLocations.forEach(function(location) {
       location.marker = new google.maps.Marker({
         map: map,
@@ -113,8 +111,6 @@ function initMap() {
 
     });
 
-    // Start List view. From http://opensoul.org/2011/06/23/live-search-with-knockoutjs/
-
     // Ko array that will have the filtered locations on the map. Default state when starting the app is with all locations visible
     self.filteredLocations = ko.observableArray();
     self.allLocations.forEach(function(location) {
@@ -122,22 +118,17 @@ function initMap() {
     });
 
     // Implementing the search and filter functionality.
-
     // User input
-
     self.userSearch = ko.observable('');
 
     // Filter the observable Array
-
     self.filterLocations = function() {
       var textInput = self.userSearch().toLowerCase();
 
       // Remove everything from the filteredArray
-
       self.filteredLocations.removeAll();
 
       // Filter locations by name
-
       self.allLocations.forEach(function(location) {
         location.marker.setMap(null);
 
