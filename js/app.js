@@ -24,7 +24,7 @@ var locations = [{
     name: "Stumptown Coffee Roasters",
     lat: 40.745632,
     lng: -73.988052,
-    id: "44aa52d50f964a520834720e3"
+    id: "4aa52d50f964a520834720e3"
   },
   {
     name: "Eataly Flatiorn",
@@ -49,7 +49,7 @@ function initMap() {
       lat: 40.7651298,
       lng: -73.9821123
     },
-    zoom: 14,
+    zoom: 13,
   });
 
   function mapModel() {
