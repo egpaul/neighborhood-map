@@ -1,8 +1,7 @@
-//Model for App
+"use strict";
 
-//Location listings and
-var locations = [
-  {
+//Location array
+var locations = [{
     name: "Amsterdam Ale House",
     lat: 40.781422,
     lng: -73.979954,
@@ -16,7 +15,7 @@ var locations = [
   },
   {
     name: "Stumptown Coffee Roasters",
-    lat: 40.745632,,
+    lat: 40.745632,
     lng: -73.988052,
     id: "44aa52d50f964a520834720e3"
   },
@@ -34,6 +33,56 @@ var locations = [
   },
 ]
 
-// Client ID and Secret for Foursquare
-var CLIENT_ID_Foursquare = '?client_id=PGRNG1GBR34H5Y025X0EWBXDPKDA2KIXVL2L1VEU4OIJDFUR';
-var CLIENT_SECRET_Foursquare = '&client_secret=X4AIVIWMJLFIEMBMSAXC42WSN0PNXV5QCOCL3EMQOWOI3LO3';
+//Setting up map view
+var map;
+
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {
+      lat: 40.7651298,
+      lng: -73.9821123
+    },
+    zoom: 14,
+  });
+  var infowindow = new google.maps.InfoWindow();
+  //Creates markers for my locations run and pushes to markers array
+  for (var i = 0; i < locations.length; i++) {
+    var marker = new google.maps.Marker({
+      name: locations[i].name,
+      position: new google.maps.LatLng(locations[i].lat, locations[i].lng),
+      map: map,
+      animation: google.maps.Animation.DROP
+    });
+  }
+}
+
+// If map can't load
+function mapError() {
+  alert("Cannot Connect to Google Maps at this time. Please try again later.");
+}
+
+function MapViewModel() {
+  var self = this;
+
+  function Location(data) {
+    this.name = data.name;
+    this.lat = data.lat;
+    this.lng = data.lng;
+    this.id = data.id;
+  }
+
+  Location.prototype.openWindow = function() {
+    map.panTo(this.marker.position);
+    google.maps.event.trigger(this.marker, 'click');
+    if (currentInfoWindow !== null) {
+      currentInfoWindow.close(map, this);
+    }
+  };
+
+  ko.applyBindings(new MapViewModel());
+
+  // Client ID and Secret for Foursquare
+  //var CLIENT_ID_Foursquare = "PGRNG1GBR34H5Y025X0EWBXDPKDA2KIXVL2L1VEU4OIJDFUR";
+  //var CLIENT_SECRET_Foursquare = "X4AIVIWMJLFIEMBMSAXC42WSN0PNXV5QCOCL3EMQOWOI3LO3";
+
+  //Funtction to call Foursquare API
