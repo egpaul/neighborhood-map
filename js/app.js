@@ -20,6 +20,7 @@ function initMap() {
     zoom: 13,
   });
 
+
   function mapModel() {
     var self = this;
 
@@ -143,4 +144,8 @@ function initMap() {
     };
   }
   ko.applyBindings(new mapModel());
+}
+
+function googleError() {
+  alert("<strict>Google maps failed to load. Please try again later.</strict>");
 }
